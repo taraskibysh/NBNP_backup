@@ -1,0 +1,1 @@
+ALTER TABLE app_user MODIFY date_of_birth DATE NULL;

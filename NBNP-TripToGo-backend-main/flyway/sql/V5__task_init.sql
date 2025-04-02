@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS task (
+id INT PRIMARY KEY AUTO_INCREMENT,
+task_name VARCHAR(100) NOT NULL,
+task_description TEXT,
+task_deadline DATETIME,
+is_done BOOL NOT NULL,
+trip_id INT NOT NULL,
+user_id INT,
+FOREIGN KEY (trip_id)
+REFERENCES trip (id)
+ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (user_id)
+    REFERENCES app_user (id)
+    ON DELETE CASCADE ON UPDATE CASCADE
+);

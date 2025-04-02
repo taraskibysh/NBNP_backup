@@ -1,0 +1,33 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-local
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  flyway-migrations:
+    image: flyway/flyway:11.3.1
+    container_name: flyway-migrations
+    depends_on:
+      - mysql
+    command: >
+      -url=jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true
+      -user=root
+      -password=${MYSQL_ROOT_PASSWORD}
+      -connectRetries=20
+      -placeholders.MYSQL_DATABASE=${MYSQL_DATABASE}
+      -placeholders.MYSQL_USER=${MYSQL_USER}
+      migrate
+    volumes:
+      - ./flyway/sql:/flyway/sql
+
+volumes:
+  mysql_data:

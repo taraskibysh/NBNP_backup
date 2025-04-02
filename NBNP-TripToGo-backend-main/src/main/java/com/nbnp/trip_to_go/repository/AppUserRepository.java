@@ -1,0 +1,11 @@
+package com.nbnp.trip_to_go.repository;
+
+import com.nbnp.trip_to_go.model.AppUser;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface AppUserRepository extends JpaRepository<AppUser, Integer> {
+    Optional<AppUser> findByEmail(String username);
+    boolean existsByEmail(String email);
+}
